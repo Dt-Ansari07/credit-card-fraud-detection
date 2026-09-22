@@ -36,10 +36,15 @@ Credit card fraud is rare but costly. A fraud classifier has to catch as much fr
 
 | Model | Accuracy | Precision (fraud) | Recall (fraud) | F1 (fraud) | ROC-AUC | PR-AUC |
 |---|---|---|---|---|---|---|
-| Decision Tree — Original | 0.9960 | 0.648 | 0.669 | 0.659 | **0.834** | 0.436 |
+| Decision Tree — Original | 0.9959 | 0.640 | 0.669 | 0.654 | **0.833** | 0.430 |
 | Decision Tree — `class_weight='balanced'` | 0.9963 | **0.692** | 0.648 | **0.669** | 0.823 | **0.450** |
 
-`class_weight='balanced'` cuts false alarms by ~20% (822 → 654) and improves F1/PR-AUC, at the cost of catching slightly less fraud — a genuine precision/recall trade-off, not a one-sided win. Full reasoning, confusion matrices, and limitations are in the notebook's Conclusion section.
+`class_weight='balanced'` reduces false positives by ~23% (853 → 654) and improves F1/PR-AUC, at the cost of catching slightly less fraud (1,467 vs. 1,515 true positives) — a genuine precision/recall trade-off, not a one-sided win. Full reasoning, confusion matrices, and limitations are in the notebook's Conclusion section.
+
+*(The baseline Decision Tree is now seeded with `random_state=99` for reproducibility — earlier runs without a fixed seed varied by roughly ±1 point on these metrics.)*
+
+### Model Performance Comparison
+![Model Performance Comparison](images/model_performance_comparison.png)
 
 ### Confusion Matrices
 ![Confusion Matrices](images/confusion_matrices.png)
@@ -79,7 +84,8 @@ credit-card-fraud-detection/
 ├── notebooks/
 │   └── credit_card_fraud_detection.ipynb
 ├── src/
-│   └── evaluation.py                  # reusable fraud-metrics helper
+│   ├── evaluation.py                   # reusable fraud-metrics helper
+│   └── plotting.py                     # shared chart style + plotting functions
 ├── images/                            # exported charts used in this README
 ├── requirements.txt
 ├── .gitignore
